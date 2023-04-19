@@ -12,6 +12,7 @@ class BooksController < ApplicationController
     @book = Book.new
     @books = Book.all
     @user = current_user
+    # current_userはviewファイルに直接記述でよい。
   end
 
   def create

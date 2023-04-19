@@ -4,12 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one_attached :profile_image
   has_many :books,dependent: :destroy
   has_many :favorites,dependent: :destroy
   has_many :book_comments,dependent: :destroy
+  
+  has_one_attached :profile_image
 
-  validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true, presence: true
+  validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
+  # presence: true はミニマムが２で指定されているので不要？
   validates :introduction,length: {maximum: 50 }
 
   

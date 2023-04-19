@@ -10,17 +10,18 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     @user = current_user
+    # current_userはviewファイルに直接記述でよい。
     @book = Book.new
   end
  
   def edit
-    @user = User.find(params[:id])
+    #＠user = User.find(params[:id])
+    #ensure_correct_userメソッドで＠userを定義しているので省略可
   end
 
   def update
-    @user = User.find(params[:id])
-    @books = @user.books
-    @book = Book.new
+    # @user = User.find(params[:id])
+     #ensure_correct_userメソッドで＠userを定義しているので省略可
     if @user.update(user_params)
       redirect_to user_path(current_user), notice: "You have updated user successfully."
     else
