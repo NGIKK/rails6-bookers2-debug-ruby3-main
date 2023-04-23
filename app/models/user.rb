@@ -49,19 +49,19 @@ class User < ApplicationRecord
       followings.include?(user)
   end
 
-  def self.looks(searches,words)
+  def self.looks(searches,word)
    if searches == "perfect_match"
-      @user = User.where("name LIKE ?","#{words}")
+      @user = User.where("name LIKE ?","#{word}")
       #完全一致
    elsif searches == "forward_match"
-      @user = User.where("name LIKE ?","#{words}%")
+      @user = User.where("name LIKE ?","#{word}%")
       #前方一致
    elsif searches == "backward_match"
-      @user = User.where("name LIKE ?","%#{words}")
+      @user = User.where("name LIKE ?","%#{word}")
       #後方一致
    else
-      @user = User.where("name LIKE ?","%#{words}%")
-      #部分一致。%は任意の文字列を表す。複数形であることに処理的な意味はない。
+      @user = User.where("name LIKE ?","%#{word}%")
+      #部分一致。%は任意の文字列を表す。サイトに書いてあったように複数形であることに処理的な意味はない。
    end
   end
 

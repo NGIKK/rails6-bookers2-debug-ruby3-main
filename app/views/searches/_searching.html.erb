@@ -4,6 +4,9 @@
 <%= form_with url: search_path, method: :get,local: :true do |f| %>
  <%= f.text_field :word %>
  <%= f.select :range, options_for_select([["User"],["Book"]])%>
+ <!--解答のコード：options_for_select({ "User" => "user", "Book" => "book" }) %>-->
+ <!--解答のコード: options_for_select({ "完全一致" => "perfect", "前方一致" => "forward", "後方一致" => "backward", "部分一致" => "partial" }) %>-->
+ <!--モデル名を変換する必要があるのか？[ ]と=>はどっちが良いのか？-->
  <%= f.select :search, options_for_select([["完全一致","perfect_match"],["前方一致","forward_match"],["後方一致","backward_match"],["不完全一致","partial_match"]])%>
  <%= f.submit "検索"%>
  <% end %>
