@@ -1,0 +1,16 @@
+<h1><%=@entryUser.name%>さんとのメッセージ</h1>
+
+<div>
+<% @messages.each do |message|%>
+<li>
+<%= message.user.name %>:</br>
+<%= message.body%>
+</li>
+<%= end %>
+</div>
+
+<%= form_with model:@message, url:messages_path(@message.id), method: :post do |f|  %>
+<%= f.text_field :body, placeholder: "メッセージを入力" %>
+<%= f.hidden_field :room_id, value: @room.id %>
+<%= f.submit "送信"%>
+<% end %>

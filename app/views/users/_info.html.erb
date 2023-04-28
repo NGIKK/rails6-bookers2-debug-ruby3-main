@@ -34,6 +34,18 @@
 <div class='row'>
   <% if current_user != user %>
     <td><%= render "relationships/btn", user: user %></td>
+
+    <% if isRoom == true %>
+     <%=link_to "チャットへ",room_path(roomId) %>
+     <% else %>
+       <%= form_with model: room, method: :post  do |f| %>
+       <%= fields_for entry do |e|%>
+       <% e.hidden_field :user_id, value: user.id %>
+       <% end %>
+       <%= f.submit "チャットを始める"%>
+       <% end %>
+    <% end %>
+
   <% else %>
     <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block edit_user_#{user.id}" do %>
       <i class="fas fa-user-cog"></i>
