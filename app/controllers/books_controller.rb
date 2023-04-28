@@ -5,12 +5,22 @@ class BooksController < ApplicationController
     @user = current_user
     @book = Book.find(params[:id])
     @book_new = Book.new
-    @comment = BookComment.new
+    @book_comment = BookComment.new
   end
 
   def index
+    to = Time.current.at_end_of_day
+    #Timeクラス
+    #今日の23:59
+    #『Time.now』『Date.today』『DateTime.now』は環境変数またはシステムのタイムゾーン設定を、
+    #『Time.current』などのcurrentは`application.rb`に設定したタイムゾーン設定を利用
+    from = (to - 6.day).at_beginning_of_day
+    #toから6日前の0:00
     @book = Book.new
-    @books = Book.all
+    @books = Book.all.sort_by{|x|
+    x.favorites.where(created_at: from...to).size}.reverse
+    #Book.includes(:favorites)とBook.allは同じ処理結果
+    #includesメソッド アソシエーションの関連名を指定する。
     @user = current_user
     # current_userはviewファイルに直接記述でよい?
   end
@@ -63,5 +73,5 @@ class BooksController < ApplicationController
        redirect_to books_path
      end
    end
-   
+
 end

@@ -1,4 +1,6 @@
 class Book < ApplicationRecord
+   
+   
   belongs_to :user
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
@@ -8,7 +10,7 @@ class Book < ApplicationRecord
 
   def favorited_by?(user)
       favorites.exists?(user_id: user.id)
-      #なぜ(user.id)だけじゃいけないのか？？user_idカラムのuser.idを指定している？
+      #user_idカラムからviewの引数で渡してくるuser.idが存在しているか確認している。
   end
 
  def self.looks(searches,word)

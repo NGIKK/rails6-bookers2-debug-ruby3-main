@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   devise_for :users
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
     resource :favorites,only: [:create,:destroy]
+    #resourceが単数形だと、自身のidをurlに含めなくなる。
+    #他のモデルのidでfavoriteのidも特定できるため、favoriteのidは
     resources :book_comments,only: [:create, :destroy]
     end
 

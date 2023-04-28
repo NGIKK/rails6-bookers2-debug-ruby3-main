@@ -22,13 +22,11 @@ class RelationshipsController < ApplicationController
   def followings
     user = User.find(params[:user_id])
     @followings = user.followings
-    #なぜfollowed_idじゃない？
   end
 
   def followers
     user  = User.find(params[:user_id])
     @followers = user.followers
-    #なぜfollower_idじゃない？？
   end
 
 
