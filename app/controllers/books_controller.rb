@@ -21,9 +21,12 @@ class BooksController < ApplicationController
     #今日の23:59
     #『Time.now』『Date.today』『DateTime.now』は環境変数またはシステムのタイムゾーン設定を、
     #『Time.current』などのcurrentは`application.rb`に設定したタイムゾーン設定を利用
+    # Time.zone.nowと同じ
     from = (to - 6.day).at_beginning_of_day
     #toから6日前の0:00
     @book = Book.new
+    # ソートを掛けているせいか、@booksを投稿数のカウントに使えなかった。
+    @book_count = Book.all
     @books = Book.all.sort_by{|x|
     x.favorites.where(created_at: from...to).size}.reverse
     #Book.includes(:favorites)とBook.allは同じ処理結果
