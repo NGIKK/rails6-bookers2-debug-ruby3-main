@@ -6,11 +6,12 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book_new = Book.new
     @book_comment = BookComment.new
-   unless ReadCount.where(created_at: Time.zone.now.all_day).find_by(user_id: current_user,book_id: @book.id)
+   unless ReadCount.find_by(user_id: current_user,book_id: @book.id)
     read_count = ReadCount.new(book_id: @book.id,user_id: @user.id)
     read_count.save
     #read_count = current_user.read_counts.create(book_id: @book.id)
     #アソシエーションを利用して１つにまとめた記述
+    #各ユーザー1日一回まで閲覧数を記録する場合find_byの前につける where(created_at: Time.zone.now.all_day)
    end
   end
 
