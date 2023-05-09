@@ -41,10 +41,6 @@ class Book < ApplicationRecord
    end
  end
  
- def self.date_looks(date)
-   @book = Book.where(created_at:)
-     
- end 
 
 
 end

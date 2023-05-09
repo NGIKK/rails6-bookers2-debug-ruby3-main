@@ -99,17 +99,17 @@
 
 </script>
   <div class="d-flex justify-content-center mt-3">
-  <%= form_with  url:user_path(@user.id), method: :get, local: :true do |f| %>
+  <%= form_with  url:user_search_path(@user),local:false, method: :get do |f| %>
   <%= f.date_field :created_at %>
   <%= f.submit "検索"%>
   <% end %>
   </div>
   
-  <script></script>
-
-  </div>
-
-
+ <div id="search_result">
+   <% if @search_book.present? %>
+   <%= render 'search', search_book: @search_book %>
+   <% end %>
+ </div>
 
 
   </div>
