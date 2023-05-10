@@ -26,6 +26,25 @@
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <% end %>
+            <td>
+              <div id="star-rate<%= @book.id %>"></div>
+              <script>
+              let elm = document.querySelector('#star-rate<%= @book.id %>');
+              let ot = {
+                 size      : 36,
+                 starOff   : '<%= asset_path('star-off.png') %>',
+                 // starharf : '<%#= asset_path('star-half.png') %>',
+                 starOn    : '<%= asset_path('star-on.png') %>',
+                 readOnly: true,
+                 score: '<%= @book.score %>'
+                };
+              $(document).on('turbolinks:load',function(){
+                raty(elm,ot);
+              });
+              </script>
+
+            </td>
+
         </tr>
       </table>
 

@@ -26,7 +26,6 @@ class BooksController < ApplicationController
     #toから6日前の0:00
     @book = Book.new
     # ソートを掛けているせいか、@booksを投稿数のカウントに使えなかった。
-    @book_count = Book.all
     @books = Book.all.sort_by{|x|
     x.favorites.where(created_at: from...to).size}.reverse
     #Book.includes(:favorites)とBook.allは同じ処理結果
@@ -73,7 +72,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title,:body)
+    params.require(:book).permit(:title,:body,:score)
   end
 
 # メソッドを定義してbefore_actionする
