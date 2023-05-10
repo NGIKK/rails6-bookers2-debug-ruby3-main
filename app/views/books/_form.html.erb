@@ -10,17 +10,30 @@
 
   <div id="post_raty" class= mb-3></div>
   <script>
-  // scriptファイルをどのidの部分に配置するかを指定
+  $(document).on('turbolinks:load',function() {
+     // scriptファイルをどのidの部分に配置するかを指定
   let elem = document.querySelector('#post_raty');
+  　// 指定しているHTML要素が空の場合は処理を停止
+  if (elem == null) return;
+  
+  // HTML要素の中身を変更するときに使われるプロパティである。
+  // HTML要素の中身を自由に変更することで、動的なWebページを作成できる。
+  // ここではelemの中身を空白にしている。
+  // これを記述しないとブラウザバックで星が増殖する。
+  elem.innerHTML = ""
+  // 代わりに$('#post_raty').empty();を記述しても増殖を防げる
+  // HTMLの子要素を削除して再度星を読み込む。
   let opt = {
     //星画像の指定などのオプションをここに記述,
     size: 36,
-    starOff:  '<%= asset_path('star-off.png') %>',
-    // starharf : '<%= asset_path('star-half.png') %>',
-    starOn : '<%= asset_path('star-on.png') %>',
- 　　scoreName:'book[score]'
+    starOff:'<%= asset_path('star-off.png') %>',
+    starharf:'<%= asset_path('star-half.png') %>',
+    starOn:'<%= asset_path('star-on.png') %>',
+    scoreName:'book[score]',
    };
   raty(elem,opt);
+  });
+ 
 </script>
 
   <div class="form-group">

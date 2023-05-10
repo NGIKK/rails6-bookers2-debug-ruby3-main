@@ -16,6 +16,11 @@ class BooksController < ApplicationController
   end
 
   def index
+    if params[:latest]
+      @books = Book.latest
+    elsif params[:score_count]
+      @books = Book.score_count
+    else
     to = Time.current.at_end_of_day
     #Timeクラス
     #今日の23:59
@@ -24,14 +29,15 @@ class BooksController < ApplicationController
     # Time.zone.nowと同じ
     from = (to - 6.day).at_beginning_of_day
     #toから6日前の0:00
-    @book = Book.new
     # ソートを掛けているせいか、@booksを投稿数のカウントに使えなかった。
     @books = Book.all.sort_by{|x|
     x.favorites.where(created_at: from...to).size}.reverse
     #Book.includes(:favorites)とBook.allは同じ処理結果
     #includesメソッド アソシエーションの関連名を指定する。
+    end
     @user = current_user
     # current_userはviewファイルに直接記述でよい?
+    @book = Book.new
   end
 
   def create

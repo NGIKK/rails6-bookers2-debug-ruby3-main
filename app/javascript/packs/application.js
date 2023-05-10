@@ -18,6 +18,7 @@ window.raty = function(elem,opt) {
   raty.init();
   return raty;
 }
+import "sample"
 
 Rails.start()
 Turbolinks.start()
