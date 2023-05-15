@@ -16,6 +16,11 @@ class BooksController < ApplicationController
   end
 
   def index
+    if params[:latest]
+      @books = Book.latest
+    elsif params[:score_count]
+      @books = Book.score_count
+    else
     to = Time.current.at_end_of_day
     #Timeクラス
     #今日の23:59
@@ -24,15 +29,15 @@ class BooksController < ApplicationController
     # Time.zone.nowと同じ
     from = (to - 6.day).at_beginning_of_day
     #toから6日前の0:00
-    @book = Book.new
     # ソートを掛けているせいか、@booksを投稿数のカウントに使えなかった。
-    @book_count = Book.all
     @books = Book.all.sort_by{|x|
     x.favorites.where(created_at: from...to).size}.reverse
     #Book.includes(:favorites)とBook.allは同じ処理結果
     #includesメソッド アソシエーションの関連名を指定する。
+    end
     @user = current_user
     # current_userはviewファイルに直接記述でよい?
+    @book = Book.new
   end
 
   def create
@@ -40,7 +45,9 @@ class BooksController < ApplicationController
     @books = Book.all
     @book = Book.new(book_params)
     @book.user_id = current_user.id
+    tag_list = params[:book][:tag_name].split(',').uniq
     if @book.save
+       @book.save_tag(tag_list)
       redirect_to book_path(@book.id), notice: "You have created book successfully."
     else
       #@books = Book.all
@@ -73,7 +80,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title,:body)
+    params.require(:book).permit(:title,:body,:score,)
   end
 
 # メソッドを定義してbefore_actionする

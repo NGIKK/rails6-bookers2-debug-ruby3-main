@@ -1,0 +1,122 @@
+ <div>
+ <h4>投稿数の前日比・前週比</h4>
+    <table class = 'table table-hover table-inverse table-bordered'>
+    <thead>
+      <row>
+      <th>今日の投稿数</th>
+      <th>前日の投稿数</th>
+      <th>前日比</th>
+      </row>
+    </thead>
+    <tbody>
+      <row>
+       <td><%= @today_book.count %></td>
+       <td><%= @yesterday_book.count %></td>
+       <td>
+         <% if @yesterday_book.count == 0%>
+          前日の投稿はありません
+         <% else %>
+         <% @the_day_before =   @today_book.count / @yesterday_book.count.to_f  %>
+          <%= (@the_day_before * 100).round %>%
+          <!--to_fメソッドで小数点まで表示-->
+         <% end %>
+       </td>
+      </row>
+    </tbody>
+    </table>
+    </div>
+    
+    <div>
+     <h4>7日間分の投稿数</h4>
+    <table class = 'table table-hover table-inverse table-bordered'>
+    <thead>
+      <row>
+      <th>6日前</th>
+      <th>5日前</th>
+      <th>4日前</th>
+      <th>3日前</th>
+      <th>2日前</th>
+      <th>1日前</th>
+      <th>今日</th>
+      </row>
+    </thead>
+    <tbody>
+      <row>
+       <td><%= @books.created_days_ago(6).count %></td>
+       <td><%= @books.created_days_ago(5).count %></td>
+       <td><%= @books.created_days_ago(4).count %></td>
+       <td><%= @books.created_days_ago(3).count %></td>
+       <td><%= @books.created_days_ago(2).count %></td>
+       <td><%= @books.created_days_ago(1).count %></td> 
+       <td><%= @books.created_today.count %></td>
+      </row>
+    </tbody>
+    </table>
+    </div>
+
+    <div>
+    <table class = 'table table-hover table-inverse table-bordered'>
+    <thead>
+      <row>
+      <th>今週の投稿数</th>
+      <th>前週の投稿数</th>
+      <th>前週比</th>
+      </row>
+    </thead>
+    <tbody>
+      <row>
+       <td><%= @this_week_book.count %></td>
+       <td><%= @last_week_book.count %></td>
+       <td>
+          <% if @last_week_book.count == 0%>
+          先週の投稿はありません
+         <% else %>
+         <% @the_week_before =   @this_week_book.count / @last_week_book.count.to_f  %>
+         <%= (@the_week_before * 100).round %>%
+          <!--to_fメソッドで小数点まで表示-->
+         <% end %>
+       </td>
+      </row>
+    </tbody>
+    </table>
+    </div>
+    
+    <canvas id = "mychart"></canvas>
+    <script>
+    var ctx = document.getElementById('mychart');
+    var data = {
+    labels: ["6日前","5日前","4日前","3日前","2日前","1日前","今日"],
+    datasets:[{
+        label:'投稿した本の数',
+        data: <%= @books.this_week_count %>,
+        borderColor: 'rgba(255, 100, 100, 1)',
+        // 曲線具合。1が直線。
+        lineTension: 0.3,
+        // グラフ線の下の塗りつぶし。true あり false なし
+        fill: true
+        }]
+          };
+    var options = {
+        plugins: {
+            title: { display: true, text: '7日間の投稿数の比較' }
+          },
+        responsive: true,
+        scales: {
+            y:{
+                suggestedMin: 0,
+                suggestedMax: 10,
+                // グラフの数値が上回った場合、見切れないように
+                beginAtZero: true,
+                stepSize:1
+            }
+        }
+    };
+
+    $(document).on('turbolinks:load', function() {
+    var myChart = new Chart(ctx,{
+    type:'line',
+    data: data,
+    options: options
+   });
+   });
+</script>
