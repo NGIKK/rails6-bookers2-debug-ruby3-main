@@ -7,6 +7,12 @@
     <%= f.label "Opinion" %>
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
+  
+  <div class="form_group">
+    <%= f.label "tag"%>
+    <%= f.text_field :tag_name, placeholder: '空白スペースで区切って入力してください' %>
+    <%#= f.select :tag, ["anime","animal","plant"],{include_blank: '選択してください'} %>
+  </div>
 
   <div id="post_raty" class= mb-3></div>
   <script>
